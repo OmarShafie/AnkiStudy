@@ -34,28 +34,28 @@ function CreateStudyAnki() {
         prev_answer = curr_answer;
         data_subanswer = [];
       }
-      if(curr_subquestion != ""){
+      if(curr_subquestion != "" || i+1 == rows.length){
         if(prev_subquestion != ""){
           data_subquestion.push({"subquestion":prev_subquestion, "answer": data_answer.slice()});
         }
         prev_subquestion = curr_subquestion;
         data_answer = [];
       }
-      if(curr_question != ""){
+      if(curr_question != "" || i+1 == rows.length){
         if(prev_question != ""){
           data_question.push({"question":prev_question, "subquestion": data_subquestion.slice()});
         }
         prev_question = curr_question;
         data_subquestion = [];
       }
-      if(curr_subgroup != ""){
+      if(curr_subgroup != "" || i+1 == rows.length){
         if(prev_subgroup != ""){
           data_subgroup.push({"subgroup":prev_subgroup, "question": data_question.slice()});
         }
         prev_subgroup = curr_subgroup;
         data_question = [];
       }
-      if(curr_group != ""){
+      if(curr_group != "" || i+1 == rows.length){
         if(prev_group != ""){
           data_group.push({"group":prev_group, "subgroup": data_subgroup.slice()});
         }
@@ -68,8 +68,8 @@ function CreateStudyAnki() {
     }
     i++;
   }
-  //Logger.log(data_group[0]["subgroup"][0]["question"][0]["subquestion"][0]);
-  //Logger.log(data_group[0]["subgroup"][0]["question"][0]["subquestion"][1]);
+  Logger.log(data_group[0]["subgroup"][0]["question"][0]["subquestion"][0]);
+  Logger.log(data_group[0]["subgroup"][0]["question"][0]["subquestion"][1]);
   //Logger.log(data_group[0]["subgroup"][0]["question"][1]["subquestion"][0]["answer"][0]);
   //Logger.log(data_group[0]["subgroup"][0]["question"][1]["subquestion"][0]["answer"][1]);
   // Create 4 columns for anki format: [front, back, tags, notes]
@@ -120,7 +120,7 @@ function CreateStudyAnki() {
       }
     }
   }
-  var q =11;
+  var q =0;
   Logger.log(qpairs[q][0]);
   Logger.log(qpairs[q][1]);
   Logger.log(qpairs[q][2]);
