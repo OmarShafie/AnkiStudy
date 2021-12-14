@@ -112,7 +112,7 @@ function CreateStudyAnki() {
                        q3_tags]);
           for(var a = 0; a < subquestion["answer"].length; a++){
             var answer = subquestion["answer"][a];
-            var q4_tags = '"' + tags+ ' , #جواب_تفصيل';
+            var q4_tags = '"' + tags+ ' , #جواب_تفصيل"';
             var prefix4 = prefix3+"<td>"+answer["answer"]+"</td>";
             if(answer["subanswer"].length > 0){
               //Logger.log(answer);
