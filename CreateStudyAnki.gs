@@ -82,36 +82,41 @@ function CreateStudyAnki() {
     "<th>فصل</th> <th>المسألة</th> <th>تفريع</th>  </tr> <tr>";
   var row_head_q4 = 
     "<th>فصل</th> <th>المسألة</th> <th>تفريع</th> <th>جواب</th> </tr> <tr>";
-  var table_head = "<table> <tr>";
-  var table_foot = "</tr> </table>";
+  var table_head = '"<table> <tr>';
+  var table_foot = '</tr> </table>"';
   // Question type 1, مسائل_الباب# 
   for(var g = 0; g < data_group.length; g++){
     var group = data_group[g];
     for(var sg = 0; sg < group["subgroup"].length; sg++){
       var subgroup = group["subgroup"][sg];
       var tags = group["group"] + " , " + subgroup["subgroup"]
-      var q1_tags = '"'+tags + " , " + "#مسائل_الباب"+'"';
-      qpairs.push([table_head+row_head_q1+"<td>"+subgroup["subgroup"]+"</td>"+table_foot, 
+      tags = tags.replace(" ","_")
+      var q1_tags = '"'+tags + ' , #مسائل_الباب"';
+      var prefix1 = "<td>"+subgroup["subgroup"]+"</td>";
+      qpairs.push([table_head + row_head_q1 + prefix1 + table_foot, 
                    table_head+"<td>"+subgroup["question"].map(x=>x["question"]).join("</td></tr><tr><td>")+"</td>"+table_foot,
-                    q1_tags]);
+                   q1_tags]);
       for(var q = 0; q < subgroup["question"].length; q++){
         var question = subgroup["question"][q];
-        var q2_tags = '"'+tags + " , " + "#مسألة_تفريع"+'"';
-        qpairs.push([table_head+row_head_q2+"<td>"+subgroup["subgroup"]+"</td><td>"+question["question"]+"</td>"+table_foot, 
+        var q2_tags = '"'+tags + ' , #مسألة_تفريع"';
+        var prefix2 = prefix1+"<td>"+question["question"]+"</td>";
+        qpairs.push([table_head + row_head_q2 + prefix2 + table_foot, 
                      table_head+"<td>"+question["subquestion"].map(x=>x["subquestion"]).join("</td></tr><tr><td>")+"</td>"+table_foot, 
                      q2_tags]);
         for(var sq = 0; sq < question["subquestion"].length; sq++){
           var subquestion = question["subquestion"][sq];
-          var q3_tags = '"'+tags + " , " + "#تفريع_جواب"+'"';
-          qpairs.push([table_head+row_head_q3+"<td>"+subgroup["subgroup"]+"</td><td>"+question["question"]+"</td><td>"+subquestion["subquestion"]+"</td>"+table_foot, 
+          var q3_tags = '"' + tags + ' , #تفريع_جواب"';
+          var prefix3 = prefix2+"<td>"+subquestion["subquestion"]+"</td>";
+          qpairs.push([table_head + row_head_q3 + prefix3 + table_foot, 
                        table_head+"<td>"+subquestion["answer"].map(x=>x["answer"]).join("</td></tr><tr><td>")+"</td>"+table_foot,
                        q3_tags]);
           for(var a = 0; a < subquestion["answer"].length; a++){
             var answer = subquestion["answer"][a];
-            var q4_tags = '"'+tags + " , " + "#جواب_تفصيل"+'"';
+            var q4_tags = '"' + tags+ ' , #جواب_تفصيل';
+            var prefix4 = prefix3+"<td>"+answer["answer"]+"</td>";
             if(answer["subanswer"].length > 0){
               //Logger.log(answer);
-              qpairs.push([table_head+row_head_q4+"<td>"+subgroup["subgroup"]+"</td><td>"+question["question"]+"</td><td>"+subquestion["subquestion"]+"</td><td>"+answer["answer"]+"</td>"+table_foot, 
+              qpairs.push([table_head + row_head_q4 + prefix4 + table_foot, 
               table_head+"<td>"+answer["subanswer"].join("</td></tr><tr><td>")+"</td>"+table_foot,
               q4_tags]);
             }
